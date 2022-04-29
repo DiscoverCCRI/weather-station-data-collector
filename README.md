@@ -1,7 +1,10 @@
-# weather-station-test1
+Authors: Yiwei Zhang, NAU IoT (Jacob Hagan, Duane Booher)
 
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This repository contains sample code to read and publish Seeed SenseCAP ONE S900 Compact Weather Station data over MQTT. The purpose of this code is to support the Discover project at Northern Arizona University.
+
+Users may use this code as a starting point for any experiments that may utilize the Seeed SenseCAP ONE S900 Compact Weather Station.
+
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
