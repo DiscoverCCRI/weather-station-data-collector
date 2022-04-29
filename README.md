@@ -1,4 +1,4 @@
-Authors: Yiwei Zhang, NAU IoT (Jacob Hagan, Duane Booher)
+Authors: Yiwei Zhang, NAU IoT (Duane Booher, Jacob Hagan)
 
 # Introduction 
 This repository contains sample code to read and publish Seeed SenseCAP ONE S900 Compact Weather Station data over MQTT. The purpose of this code is to support the Discover project at Northern Arizona University.
