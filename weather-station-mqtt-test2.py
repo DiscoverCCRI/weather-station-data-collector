@@ -24,6 +24,10 @@ class WeatherStation:
         self.AccDurationRTU = bytes.fromhex('26 04 00 16 00 02 96 D8')  # Request for Accumulated rainfall duration
         self.RainIntensityRTU = bytes.fromhex('26 04 00 18 00 02 F7 1B')  # Request for Rain intensity
         self.MaxRainIntensityRTU = bytes.fromhex('26 04 00 1A 00 02 56 DB')  # Request for Maximum rainfall intensity
+        self.HeatRTU = bytes.fromhex('26 04 00 1C 00 02 B6 DA')
+        self.Dumping = bytes.fromhex('26 04 00 1E 00 02 17 1A')
+        self.PM2RTU = bytes.fromhex('26 04 00 30 00 02 77 13')
+        self.PM10RTU = bytes.fromhex('26 04 00 32 00 02 D6 D3')
         self.ser = serial.Serial(self.portx, self.bps, timeout=self.timex)  # initialize serial port
 
     def Readhex(self, rtu):
@@ -85,7 +89,10 @@ if __name__ == "__main__":
         weatherDict["Accum Rainfall Duration"] = w.Getdata(w.AccDurationRTU)
         weatherDict["Rainfall Intensity"] = w.Getdata(w.RainIntensityRTU)
         weatherDict["Max Rainfall Intensity"] = w.Getdata(w.MaxRainIntensityRTU)
+        weatherDict["Heating Temperature"] = w.Getdata(w.HeatRTU)
+        weatherDict["The dumping of state"] = w.Getdata(w.Dumping)
+        weatherDict["PM2.5"] = w.Getdata(w.PM2RTU)
+        weatherDict["PM10"] = w.Getdata(w.PM10RTU)
         pub = json.dumps(weatherDict)
         client.publish("devices/weather-station", pub)
         time.sleep(1)
-
