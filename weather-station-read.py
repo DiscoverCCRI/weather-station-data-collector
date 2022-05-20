@@ -90,7 +90,7 @@ def main():
     weatherDict["The dumping of state"] = w.Getdata(w.Dumping)
     weatherDict["PM2.5"] = w.Getdata(w.PM2RTU)
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
-    weatherDict["timestamp"] = datetime.now(timezone.utc).strfttime("%Y-%m-%d %H:%M:%S %z")
+    weatherDict["timestamp"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %z")
 
     print(weatherDict)
 
