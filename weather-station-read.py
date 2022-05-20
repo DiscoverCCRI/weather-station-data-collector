@@ -2,6 +2,7 @@ import serial
 import time
 import binascii
 import Binary
+from datetime import datetime, timezone
 
 class WeatherStation:
     def __init__(self, portx, bps, timex):
@@ -89,6 +90,7 @@ def main():
     weatherDict["The dumping of state"] = w.Getdata(w.Dumping)
     weatherDict["PM2.5"] = w.Getdata(w.PM2RTU)
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
+    weatherDict["timestamp"] = datetime.now(timezone.utc).strfttime("%Y-%m-%d %H:%M:%S %z")
 
     print(weatherDict)
 
