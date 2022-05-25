@@ -7,13 +7,13 @@ RUN apt-get install -y python3 python3-distutils python3-pip python3-apt
 RUN pip3 install pyserial
 
 # Copy over application files and grant execution rights
-COPY weather-station-read.py .
+COPY crontab /etc/cron.d/simple-cron
 COPY Binary.py .
 COPY SerialSearch.py .
-COPY crontab /etc/cron.d/simple-cron
+COPY weather-station-read.py .
 COPY weather-station-read.sh .
+RUN chmod +x /weather-station-read.py
 RUN chmod +x /weather-station-read.sh
-RUN touch /weather-station.log
 
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/simple-cron

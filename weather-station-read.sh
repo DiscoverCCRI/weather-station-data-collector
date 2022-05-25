@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/python3 /weather-station-read.py >> /weather-station.log 2>&1
+/usr/bin/python3 /weather-station-read.py >> /var/log/cron.log 2>&1
