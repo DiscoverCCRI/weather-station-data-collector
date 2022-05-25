@@ -6,8 +6,10 @@ RUN apt-get install -y cron
 RUN apt-get install -y python3 python3-distutils python3-pip python3-apt
 RUN pip3 install pyserial
 
+# Add crontab file
+ADD crontab /etc/cron.d/simple-cron
+
 # Copy over application files and grant execution rights
-COPY crontab /etc/cron.d/simple-cron
 COPY Binary.py .
 COPY SerialSearch.py .
 COPY weather-station-read.py .
