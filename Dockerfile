@@ -1,11 +1,11 @@
 FROM ubuntu:latest
 
-# Install Python and appropriate dependencies
-RUN apt update -y
-RUN apt install -y python3 python3-distutils python3-pip python3-apt
+# Update apt-get list, install Python, and other appropriate dependencies
+RUN apt-get update -y
+RUN apt-get install -y python3 python3-distutils python3-pip python3-apt
 RUN pip3 install pyserial
 
-# Copy over
+# Copy over application files
 COPY weather-station-read.py .
 COPY Binary.py .
 COPY SerialSearch.py .
