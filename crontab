@@ -7,5 +7,5 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-* * * * * root /usr/bin/python3 /weather-station-read.py >> /var/log/cron.log 2>&1
+* * * * * root /weather-station-read.sh
 # An empty line is required at the end of this file for a valid cron file.
