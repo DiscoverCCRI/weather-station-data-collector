@@ -1,4 +1,4 @@
- Example of job definition:
+# Example of job definition:
 # .---------------- minute (0 - 59)
 # |  .------------- hour (0 - 23)
 # |  |  .---------- day of month (1 - 31)
@@ -7,5 +7,5 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-* * * * * root /script.sh
+* * * * * root /weather-station-read.sh
 # An empty line is required at the end of this file for a valid cron file.
