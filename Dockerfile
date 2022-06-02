@@ -19,5 +19,9 @@ RUN chmod +x /weather-station-read.sh
 
 # Give execution rights on the cron job
 RUN chmod 0644 /etc/cron.d/simple-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
 # Run the command on container startup, this assumes that a shared volume is used to define /data.
-CMD cron && tail -f /data/weather-station-output.json
+CMD cron && tail -f /var/log/cron.log
