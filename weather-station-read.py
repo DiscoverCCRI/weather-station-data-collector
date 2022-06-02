@@ -4,6 +4,7 @@ import binascii
 import Binary
 from datetime import datetime, timezone
 import json
+import os.path
 
 class WeatherStation:
     def __init__(self, portx, bps, timex):
@@ -69,6 +70,32 @@ class WeatherStation:
             data = int(rec_datahex[6:14], 16) / 1000
         return format(data, '.3f')
 
+def outputToJSON(dataToAdd, fileName):
+    jsonData = []
+
+    try:
+        # Open the file
+        jsonFile = open(fileName, "r+")
+        jsonData = json.load(jsonFile)
+    except FileNotFoundError:
+        # Check to see if /data exists. If it doesn't exist, log out a message stating that data will be stored in root (/).
+        dataDirExists = os.path.isdir('/data')
+        if dataDirExists:
+            print(f"[+] Creating {fileName}...")
+            jsonFile = open(fileName, "w")
+        else:
+            print(f"[-] /data directory cannot be found. Did you mount a volume?")
+            print(f"[+] Storing output to /weather-station-output.json")
+            jsonFile = open("/weather-station-output.json", "w")
+    
+    # At this point it can be assumed that weather-station-output.json exists, so we can read from and add to it.
+    print(f"[+] The following data will stored: {dataToAdd}")
+
+    jsonData.append(dataToAdd)
+    json.dump(jsonData, jsonFile, indent=4, separators=(',',': '))
+    jsonFile.close()
+    
+
 def main():
     weatherDict = {}
     w = WeatherStation("/dev/ttyUSB0", 9600, 5)
@@ -93,8 +120,7 @@ def main():
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
     weatherDict["timestamp"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    jsonWeatherData = json.dumps(weatherDict)
-    print(jsonWeatherData)
+    outputToJSON(weatherDict, '/data/weather-station-output.json')
 
 
 if __name__ == "__main__":
