@@ -91,8 +91,11 @@ def outputToJSON(dataToAdd, fileName):
     # At this point it can be assumed that weather-station-output.json exists, so we can read from and add to it.
     print(f"[+] The following data will stored: {dataToAdd}")
 
+    
     jsonData.append(dataToAdd)
+    jsonFile.seek(0)
     json.dump(jsonData, jsonFile, indent=4, separators=(',',': '))
+    jsonFile.truncate()
     jsonFile.close()
     
 
