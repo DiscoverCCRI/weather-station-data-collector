@@ -3,6 +3,7 @@ import time
 import binascii
 import Binary
 from datetime import datetime, timezone
+import json
 
 class WeatherStation:
     def __init__(self, portx, bps, timex):
@@ -92,7 +93,8 @@ def main():
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
     weatherDict["timestamp"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    print(weatherDict)
+    jsonWeatherData = json.dumps(weatherDict)
+    print(jsonWeatherData)
 
 
 if __name__ == "__main__":
