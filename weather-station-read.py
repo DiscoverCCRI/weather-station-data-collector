@@ -72,27 +72,34 @@ class WeatherStation:
 
 def outputToJSON(dataToAdd, fileName):
     jsonData = []
+    volumeDir = '/data'
+    volumeDirExists = os.path.isdir(volumeDir)
 
-    try:
-        # Open the file
-        jsonFile = open(fileName, "r+")
-        jsonData = json.load(jsonFile)
-    except FileNotFoundError:
-        # Check to see if /data exists. If it doesn't exist, log out a message stating that data will be stored in root (/).
-        dataDirExists = os.path.isdir('/data')
-        if dataDirExists:
-            print(f"[+] Creating {fileName}...")
+    if volumeDirExists:
+        try:
+            # Open the existing file
+            jsonFile = open(volumeDir+fileName, "r+")
+            jsonData = json.load(jsonFile)
+
+        except FileNotFoundError:
+            print(f"[+] Creating {volumeDir+fileName}...")
+            jsonFile = open(volumeDir+fileName, "w")
+    
+    else:
+        try:
+            # Open the existing file
+            jsonFile = open(fileName, "r+")
+            jsonData = json.load(jsonFile)
+        
+        except FileNotFoundError:
+            print(f"[-] Volume directory {volumeDir} not found. Did you mount a volume?")
+            print(f"[+] Storing output to root, creating {fileName}...")
             jsonFile = open(fileName, "w")
-        else:
-            print(f"[-] /data directory cannot be found. Did you mount a volume?")
-            print(f"[+] Storing output to /weather-station-output.json")
-            jsonFile = open("/weather-station-output.json", "w")
     
     # At this point it can be assumed that weather-station-output.json exists, so we can read from and add to it.
     print(f"[+] The following data will stored: {dataToAdd}")
-
-    
     jsonData.append(dataToAdd)
+
     jsonFile.seek(0)
     json.dump(jsonData, jsonFile, indent=4, separators=(',',': '))
     jsonFile.truncate()
@@ -123,7 +130,7 @@ def main():
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
     weatherDict["timestamp"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    outputToJSON(weatherDict, '/data/weather-station-output.json')
+    outputToJSON(weatherDict, '/weather-station-output.json')
 
 
 if __name__ == "__main__":
