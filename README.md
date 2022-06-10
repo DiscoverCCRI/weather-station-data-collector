@@ -39,7 +39,7 @@ Navigate to the directory that the repository was cloned to and build the Docker
 cd weather-station-test1
 sudo docker build --rm -t weather-station-read .
 ```
-* `--rm ` : Remove intermediate containers after a successful build.
+* `--rm` : Remove intermediate containers after a successful build.
 * `-t weather-station-read` : Assign a name to the Docker image that will be built.
 
 This application requires a volume to be allocated in order to store weather station readings. Execute the following command:
