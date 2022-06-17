@@ -11,11 +11,11 @@ The following steps outline the dependencies for the project and provide install
 ## Hardware
 The system that was used to host this project is a Raspberry Pi 3 Model B running Ubuntu Server 20.04, with a [Seeed SenseCAP ONE S900 Compact Weather Station](https://files.seeedstudio.com/products/101990784/SenseCAP%20ONE%20Compact%20Weather%20Sensor%20User%20Guide-v1.6.pdf) attached via USB using a [USB to RS485 Serial Port Converter Adapter Cable](https://www.amazon.com/Serial-Converter-Adapter-Supports-Windows/dp/B076WVFXN8/ref=asc_df_B076WVFXN8/?tag=hyprod-20&linkCode=df0&hvadid=309776868400&hvpos=&hvnetw=g&hvrand=15455232194279378143&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1013406&hvtargid=pla-486428615671&th=1).
 
-![Seeed SenseCap ONE S900](resources/sensecap-one-s900.png)
+![Seeed SenseCap ONE S900](images/sensecap-one-s900.png)
 
 *Figure 1: Seeed SenseCap ONE S900 Compact Weather Station.*
 
-![RS-485 wiring](resources/RS-485-wiring.png)
+![RS-485 wiring](images/RS-485-wiring.png)
 
 *Figure 2: Wiring demonstration for the RS-485 Serial Port Converter.*
 
@@ -35,7 +35,7 @@ sudo apt install docker.io
 ### Version 1.0
 Currently, this program is Docker-based. Specifically, the weather-station-read.py program is the primary functional code and the weather station read interval is defined by a cron job. Assuming all instructions have been followed to run the applications (refer to 'Build and Test'), the weather station data will be stored in /data/weather-station-output.json. If a Docker volume is not mounted when running the image, weather station data will still be collected but will be stored in /weather-station-output.json. Keep in mind that if you do not use a volume, all of the data will be lost when the container is deleted.
 
-Originally, this program was intended to publish weather station data over MQTT. Since then, there has been some reevaluation of the design and we have decided to make the MQTT communication an independent module (likely a Docker container). The original MQTT work is preserved in the mqtt-test/ directory with all dependent files.
+Originally, this program was intended to publish weather station data over MQTT. Since then, there has been some reevaluation of the design and we have decided to make the MQTT communication an independent module (likely a Docker container). The original MQTT work is preserved in the [mqtt-test/](./mqtt-test/) directory with all dependent files.
 
 
 # Build and Test
@@ -72,7 +72,7 @@ sudo docker ps
 ```
 
 ## Analyze output logs and data 
-Now that the container is started, we can take a look at a few items. First, we will look at Docker logs, which is the output of `tail -f /var/log/cron.log`, as defined in the [Dockerfile]().
+Now that the container is started, we can take a look at a few items. First, we will look at Docker logs, which is the output of `tail -f /var/log/cron.log`, as defined in the [Dockerfile](./Dockerfile).
 ```bash
 sudo docker logs -f <CONTAINER ID>
 ```
