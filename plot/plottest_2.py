@@ -1,7 +1,9 @@
+import tkinter
+import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-
+matplotlib.use('TkAgg')
 
 def create_video(n):
     global X
