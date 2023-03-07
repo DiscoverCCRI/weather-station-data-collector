@@ -4,7 +4,7 @@ import binascii
 import Binary
 from datetime import datetime, timezone
 import json
-import os.path
+import os
 
 class WeatherStation:
     def __init__(self, portx, bps, timex):
@@ -109,6 +109,10 @@ def outputToJSON(dataToAdd, fileName):
 def main():
     weatherDict = {}
     w = WeatherStation("/dev/ttyUSB0", 9600, 5)
+    currentDate = datetime.now().strftime("%Y%m%d")
+    # Should include timestamp
+    hostname = os.uname()[1]
+    fileName = hostname + "-weather-station-" + currentDate + ".json"
 
     weatherDict["Temperature"] = w.Getdata(w.TemperatureRTU)
     weatherDict["Humidity"] = w.Getdata(w.HumidityRTU)
@@ -130,7 +134,7 @@ def main():
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
     weatherDict["timestamp"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
 
-    outputToJSON(weatherDict, '/weather-station-output.json')
+    outputToJSON(weatherDict, fileName)
 
 
 if __name__ == "__main__":
