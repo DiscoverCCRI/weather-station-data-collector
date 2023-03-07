@@ -72,7 +72,7 @@ class WeatherStation:
 
 def outputToJSON(dataToAdd, fileName):
     jsonData = []
-    volumeDir = '/data'
+    volumeDir = '/data/'
     volumeDirExists = os.path.isdir(volumeDir)
 
     if volumeDirExists:
