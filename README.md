@@ -22,7 +22,7 @@ The system that was used to host this project is a Raspberry Pi 3 Model B runnin
 ## Installation process
 Clone this repository:
 ```bash
-git clone https://github.com/DiscoverCCRI/weather-station-test1.git
+git clone https://github.com/DiscoverCCRI/weather-station-data-collector.git
 ```
 
 ## Software dependencies
