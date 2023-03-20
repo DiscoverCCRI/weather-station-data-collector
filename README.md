@@ -53,18 +53,23 @@ sudo docker build --rm -t weather-station-read .
 ## Run the container
 This application requires a volume to be allocated in order to store weather station readings. Execute the following command:
 ```bash
-sudo docker volume create experiment-data
+sudo docker volume create --driver local \
+    --opt type=none \
+    --opt device=</some/local/directory> \
+    --opt o=bind \
+    weather-data
 ```
 
 Once the volume has been created, we can run the Docker container:
 ```bash
-sudo docker run --device=/dev/ttyUSB0 -v experiment-data:/data -t -i -d weather-station-read
+sudo docker run --device=/dev/ttyUSB0 -h `hostname` -v weather-data:/data -t -i -d weather-station-read
 ```
-* `--device=/dev/ttyUSB0` : Gives the container permission to access to the weather station device.
-* `-v experiment-data:/data` : Mounts the 'experiment-data' volume to '/data' in the container's file system.
-* `-t` : Allocate a pseudo-tty.
-* `-i` : Keep STDIN open even if not attached.
-* `-d` : Start the container in detached mode.
+* `--device=/dev/ttyUSB0 ` : Gives the container permission to access to the weather station device.
+* ``-h `hostname` `` : Sets the Docker container's hostname to the local system hostname
+* `-v weather-data:/data ` : Mounts the 'weather-data' volume to '/data' in the container's file system.
+* `-t ` : Allocate a pseudo-tty.
+* `-i ` : Keep STDIN open even if not attached.
+* `-d ` : Start the container in detached mode.
 
 View the newly created Docker container's ID and other info with the following command:
 ```bash
