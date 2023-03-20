@@ -113,10 +113,8 @@ def main():
     currentDate = datetime.now().strftime("%Y%m%d")
     # Should include timestamp
     hostname = os.uname()[1]
-    fileName = "sensecap-one-s900-" + currentDate + ".json"
+    fileName = hostname + "-sensecap-one-s900-" + currentDate + ".json"
 
-    weatherDict["timestamp"] = datetime.now(pytz.timezone('America/Phoenix')).strftime("%Y-%m-%d %H:%M:%S %Z")
-    weatherDict["hostname"] = hostname
     weatherDict["Temperature"] = w.Getdata(w.TemperatureRTU)
     weatherDict["Humidity"] = w.Getdata(w.HumidityRTU)
     weatherDict["Pressure"] = w.Getdata(w.PressureRTU)
@@ -135,6 +133,8 @@ def main():
     weatherDict["The dumping of state"] = w.Getdata(w.Dumping)
     weatherDict["PM2.5"] = w.Getdata(w.PM2RTU)
     weatherDict["PM10"] = w.Getdata(w.PM10RTU)
+    weatherDict["timestamp"] = datetime.now(pytz.timezone('America/Phoenix')).strftime("%Y-%m-%d %H:%M:%S %Z")
+    weatherDict["hostname"] = hostname
 
     outputToJSON(weatherDict, fileName)
 
