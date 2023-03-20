@@ -62,9 +62,10 @@ sudo docker volume create --driver local \
 
 Once the volume has been created, we can run the Docker container:
 ```bash
-sudo docker run --device=/dev/ttyUSB0 -h `hostname` -v weather-data:/data -t -i -d weather-station-read
+sudo docker run --device=/dev/ttyUSB0 --restart unless-stopped -h `hostname` -v weather-data:/data -t -i -d weather-station-read
 ```
 * `--device=/dev/ttyUSB0 ` : Gives the container permission to access to the weather station device.
+* `--restart unless-stopped ` : Always restart the container, except that when the container is stopped (manually or otherwise), it is not restarted even after Docker daemon restarts.
 * ``-h `hostname` `` : Sets the Docker container's hostname to the local system hostname
 * `-v weather-data:/data ` : Mounts the 'weather-data' volume to '/data' in the container's file system.
 * `-t ` : Allocate a pseudo-tty.
@@ -83,30 +84,30 @@ sudo docker logs -f <CONTAINER ID>
 ```
 * `-f` : Follow log output.
 
-Which results in the following output after waiting about a minute:
+Which results in the following output every 10 minutes:
 ```bash
-[+] Creating /data/weather-station-output.json...
-[+] The following data will stored: {'Temperature': '22.940', 'Humidity': '18.560', 'Pressure': '79310.000', 'Light Intensity': '645.000', 'Min Wind Direction': '0.000', 'Max Wind Direction': '0.000', 'AVG Wind Direction': '0.000', 'Min Wind Speed': '0.000', 'Max Wind Speed': '0.000', 'AVG Wind Speed': '0.000', 'Accum Rainfall': '0.200', 'Accum Rainfall Duration': '10.000', 'Rainfall Intensity': '0.000', 'Max Rainfall Intensity': '0.000', 'Heating Temperature': '22.780', 'The dumping of state': '0.000', 'PM2.5': '0.000', 'PM10': '0.000', 'timestamp': '2022-06-17 15:44:11 UTC'}
+[+] Creating /data/weather2-sensecap-one-s900-20230320.json...
+[+] The following data will stored: {'Temperature': '20.910', 'Humidity': '27.520', 'Pressure': '78480.000', 'Light Intensity': '265.000', 'Min Wind Direction': '0.000', 'Max Wind Direction': '0.000', 'AVG Wind Direction': '0.000', 'Min Wind Speed': '0.000', 'Max Wind Speed': '0.000', 'AVG Wind Speed': '0.000', 'Accum Rainfall': '0.200', 'Accum Rainfall Duration': '10.000', 'Rainfall Intensity': '0.000', 'Max Rainfall Intensity': '0.000', 'Heating Temperature': '20.900', 'The dumping of state': '0.000', 'PM2.5': '1.000', 'PM10': '1.000', 'timestamp': '2023-03-20 14:40:10 MST', 'hostname': 'weather2'}
 ```
 
-Since the collected data is being saved to a shared volume, we can either check out the data in the weather-station-read container or from a seperate container with the shared volume mounted to it. The weather-station-read container is already running, so we will check out the data from there:
+Since the collected data is being saved to a shared volume, we can either check out the data in the weather-station-read container or from the explicitly defined 'device' location in the docker volume creation. The weather-station-read container is already running, so we will check out the data from there:
 ```bash
 sudo docker exec -it <CONTAINER ID> /bin/bash
 ```
 
-At this point, you should be within the container's bash session. You should see `root@<CONTAINER ID>:/#` in your terminal. To see the gathered data, run the following command:
+At this point, you should be within the container's bash session. You should see `root@<CONTAINER ID>:/#` in your terminal. To see the gathered data, run the following command (You will need to adjust the filename depending on what the current date is):
 ```bash
-cat /data/weather-station-output.json
+cat /data/weather2-sensecap-one-s900-20230320.json
 ```
 
 Which results in:
 ```json
 [
     {
-        "Temperature": "22.940",
-        "Humidity": "18.560",
-        "Pressure": "79310.000",
-        "Light Intensity": "645.000",
+        "Temperature": "20.910",
+        "Humidity": "27.520",
+        "Pressure": "78480.000",
+        "Light Intensity": "265.000",
         "Min Wind Direction": "0.000",
         "Max Wind Direction": "0.000",
         "AVG Wind Direction": "0.000",
@@ -117,11 +118,12 @@ Which results in:
         "Accum Rainfall Duration": "10.000",
         "Rainfall Intensity": "0.000",
         "Max Rainfall Intensity": "0.000",
-        "Heating Temperature": "22.780",
+        "Heating Temperature": "20.900",
         "The dumping of state": "0.000",
-        "PM2.5": "0.000",
-        "PM10": "0.000",
-        "timestamp": "2022-06-17 15:44:11 UTC"
+        "PM2.5": "1.000",
+        "PM10": "1.000",
+        "timestamp": "2023-03-20 14:40:10 MST",
+        "hostname": "weather2"
     }
 ]
 ```
